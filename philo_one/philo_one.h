@@ -7,13 +7,15 @@
 # include <pthread.h>
 # include <stdlib.h>
 
+# define SUCCESS 0
 # define ERR_TIME -1
 # define ERR_ARG -2
+# define ERR_MALLOC -3
 
 typedef struct	s_philo
 {
 	size_t	last_meal;
-
+	pthread_t thread;
 }				t_philo;
 
 typedef struct	s_core
@@ -28,7 +30,8 @@ typedef struct	s_core
 }				t_core;
 
 size_t	ft_strlen(char *str);
-size_t	get_time();
+size_t	ft_get_time();
+int		ft_valid(t_core *core);
 int		ft_print_error(int num);
 
 #endif

@@ -12,17 +12,32 @@ size_t	ft_new_atoi(char *str, size_t *dst)
 		str++;
 	}
 	if (*str)
-		return (1);
+		return (ERR_ARG);
 	*dst = i;
-	return (0);
+	return (SUCCESS);
 }
 
-int		ft_valid(t_core *core)
+void	*ft_hello(void *ptr)
 {
-	if (core->number > 200 || core->number < 2 || core->ms_to_die < 60
-	|| core->ms_to_eat < 60 || core->ms_to_sleep < 60)
-		return (ERR_ARG);
-	return (0);
+	t_philo *ph;
+
+	ph = (t_philo*)ptr;
+	
+	return NULL;
+}
+
+int		ft_start_eating(t_philo *philo, size_t ms_start, size_t num)
+{
+	int	i;
+
+	i = 0;
+	while (i < num)
+	{
+		pthread_create(&(philo[i].thread), NULL, ft_hello, &(philo[i]));
+		pthread_join((philo[i].thread), NULL);
+		i++;
+	}
+	return (SUCCESS);
 }
 
 int		ft_parser(int argc, char **argv, t_core *core)
@@ -53,10 +68,21 @@ int		main(int argc, char **argv)
 	t_core		*core;
 	int			ret;
 
-	core = (t_core*)malloc(sizeof(t_core));
+	if (!(core = (t_core*)malloc(sizeof(t_core))))
+		return (ft_print_error(ERR_MALLOC));
 	memset(core, 0, sizeof(t_core));
 	if ((ret = ft_parser(argc, argv, core)))
 		return (ft_print_error(ret));
-	core->philo = (t_philo*)malloc(sizeof(t_philo) * core->number);
-	
+	if (!(core->philo = (t_philo*)malloc(sizeof(t_philo) * core->number)))
+		return (ft_print_error(ERR_MALLOC));
+	core->start_ms = ft_get_time();
+	int i = 0;
+	while (i < core->number)
+	{
+		core->philo[i].last_meal = (size_t)i;
+		i++;
+	}
+	if (!ft_start_eating(core->philo, core->start_ms, core->number))
+		return (ft_print_error(EXIT_FAILURE));
+
 }
