@@ -5,7 +5,7 @@
 		"type": "cppdbg",
 		"request": "launch",
 		"program": "${workspaceFolder}/philo_one/a.out",
-		"args": [4 310 200 100],
+		"args": [4 410 200 100],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",
 		"environment": [],
