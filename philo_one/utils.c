@@ -45,8 +45,8 @@ size_t	ft_strlen(char *str)
 int		ft_valid(t_core *core)
 {
 	if (core->number > 200 || core->number < 2 ||
-	core->info.ms_to_die < 60
-	|| core->info.ms_to_eat < 60 || core->info.ms_to_sleep < 60)
+	core->info->ms_to_die < 60
+	|| core->info->ms_to_eat < 60 || core->info->ms_to_sleep < 60)
 		return (ERR_ARG);
 	return (SUCCESS);
 }

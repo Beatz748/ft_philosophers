@@ -23,17 +23,19 @@ int				ft_parser(int argc, char **argv, t_core *core)
 	if (argc < 5 || argc > 6)
 		return (ERR_ARG);
 	i = 0;
+	if (!(core->info = (t_info*)malloc(sizeof(t_info))))
+		return (ERR_MALLOC);
 	while (i++ < argc)
 	{
-		if (i == 1 && ft_new_atoi(argv[i], &(core->number)))
+		if (i == 1 && ft_new_atoi(argv[i], &core->number))
 			return (ERR_ARG);
-		if (i == 2 && ft_new_atoi(argv[i], &(core->info.ms_to_die)))
+		if (i == 2 && ft_new_atoi(argv[i], &(core->info->ms_to_die)))
 			return (ERR_ARG);
-		if (i == 3 && ft_new_atoi(argv[i], &(core->info.ms_to_eat)))
+		if (i == 3 && ft_new_atoi(argv[i], &(core->info->ms_to_eat)))
 			return (ERR_ARG);
-		if (i == 4 && ft_new_atoi(argv[i], &(core->info.ms_to_sleep)))
+		if (i == 4 && ft_new_atoi(argv[i], &(core->info->ms_to_sleep)))
 			return (ERR_ARG);
-		if (argc == 6 && i == 5 && ft_new_atoi(argv[i], &(core->info.finish_rounds)))
+		if (argc == 6 && i == 5 && ft_new_atoi(argv[i], &(core->info->finish_rounds)))
 			return (ERR_ARG);
 	}
 	return (ft_valid(core));

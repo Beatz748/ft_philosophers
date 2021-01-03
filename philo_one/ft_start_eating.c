@@ -1,5 +1,8 @@
 #include "philo_one.h"
 
+pthread_mutex_t *fork1;
+pthread_mutex_t *fork2;
+
 int			ft_get_fork(t_philo *ph)
 {
 	int		i;
@@ -7,9 +10,9 @@ int			ft_get_fork(t_philo *ph)
 
 	i = 0;
 	ph->last_meal = ft_get_time();
-	fork = &(ph->right_fork);
+	fork = ph->right_fork;
 	if (ph->n % 2)
-		fork = &(ph->left_fork);
+		fork = ph->left_fork;
 	while (i < 2)
 	{
 		if (pthread_mutex_lock(fork->mutex))
@@ -20,9 +23,9 @@ int			ft_get_fork(t_philo *ph)
 			if (++i > 1)
 				break ;
 				printf("philo %d took fork 1\n", ph->n);
-			fork = &(ph->left_fork);
+			fork = ph->left_fork;
 			if (ph->n % 2)
-				fork = &(ph->right_fork);
+				fork = ph->right_fork;
 				printf("philo %d took fork 2\n", ph->n);
 		}
 		else if (pthread_mutex_unlock(fork->mutex))
@@ -38,13 +41,21 @@ static void	*ft_hello(void *ptr)
 	t_philo *ph;
 
 	ph = (t_philo*)ptr;
-	while (ph->info.finish_rounds != ph->round)
+	// printf(" \033[41m  IT'S DEBUG !!! === %ld \033[0m \n", ft_get_time() - ph->info->start_ms);
+	while (1)
 	{
-		if (ft_get_fork(ph))
-			break ;
-		usleep(ph->info.ms_to_sleep * 1000);
-		ph->left_fork.last_philo = ph->n;
-		ph->round++;
+		if (ph->left_fork->last_philo != ph->n && ph->right_fork->last_philo != ph->n)
+		{
+			ph->left_fork->last_philo = ph->n;
+			ph->right_fork->last_philo = ph->n;
+			pthread_mutex_lock(ph->left_fork->mutex);
+			pthread_mutex_lock(ph->right_fork->mutex);
+			ph->last_meal = ft_get_time();
+			usleep(ph->info->ms_to_eat * 1000);
+			pthread_mutex_unlock(ph->left_fork->mutex);
+			pthread_mutex_unlock(ph->right_fork->mutex);
+			usleep(ph->info->ms_to_sleep * 1000);
+		}
 	}
 	return (0x000);
 }
@@ -58,13 +69,17 @@ int			ft_check(t_core *core)
 	while (1)
 	{
 		usleep(100);
-		now = ft_get_time();
-		if (now - core->ph[i].last_meal > core->info.ms_to_die)
+		if (ft_get_time() - core->ph[i].last_meal > core->info->ms_to_die)
 		{
-			printf("%ld ? ", now - core->ph[i].last_meal);
-			printf("  %ld\n", core->info.ms_to_die);
+			printf("%ld ? ", ft_get_time()  - core->ph[i].last_meal);
+			printf("  %ld\n", core->info->ms_to_die);
 			return (ft_print_stat(DEATH, i));
 		}
+	// while(i < core->number)
+	// {
+	// 	printf("philo %d last meal = %ld\n", i, ft_get_time() - core->ph[i].last_meal);
+	// 	i++;
+	// }
 		i++;
 		if (i >= core->number)
 			i = 0;
@@ -75,7 +90,10 @@ int			ft_check(t_core *core)
 int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
 {
 	int	i;
-
+	fork1 = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	fork2 = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(fork1, NULL);
+	pthread_mutex_init(fork2, NULL);
 	i = 0;
 	while (i < num)
 	{

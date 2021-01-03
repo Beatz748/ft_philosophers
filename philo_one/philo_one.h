@@ -34,16 +34,16 @@ typedef struct	s_philo
 	int			n;
 	int			round;
 	size_t		last_meal;
-	t_fork		left_fork;
-	t_fork		right_fork;
-	t_info		info;
+	t_fork		*left_fork;
+	t_fork		*right_fork;
+	t_info		*info;
 }				t_philo;
 
 typedef struct	s_core
 {
 	size_t		number;
 	pthread_t	*thread;
-	t_info		info;
+	t_info		*info;
 	t_philo		*ph;
 	t_fork		*forks;
 }				t_core;
