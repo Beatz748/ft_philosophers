@@ -3,13 +3,12 @@
 pthread_mutex_t *fork1;
 pthread_mutex_t *fork2;
 
-int			ft_get_fork(t_philo *ph)
+int			ft_get_forks(t_philo *ph)
 {
 	int		i;
 	t_fork	*fork;
 
 	i = 0;
-	ph->last_meal = ft_get_time();
 	fork = ph->right_fork;
 	if (ph->n % 2)
 		fork = ph->left_fork;
@@ -30,8 +29,6 @@ int			ft_get_fork(t_philo *ph)
 		}
 		else if (pthread_mutex_unlock(fork->mutex))
 			return (ERR_MUTEX);
-		else
-					printf(" \033[41m  IT'S DEBUG !!! === %s \033[0m \n", "lol");
 	}
 	return (0x000);
 }
@@ -41,21 +38,13 @@ static void	*ft_hello(void *ptr)
 	t_philo *ph;
 
 	ph = (t_philo*)ptr;
-	// printf(" \033[41m  IT'S DEBUG !!! === %ld \033[0m \n", ft_get_time() - ph->info->start_ms);
 	while (1)
 	{
-		if (ph->left_fork->last_philo != ph->n && ph->right_fork->last_philo != ph->n)
-		{
-			ph->left_fork->last_philo = ph->n;
-			ph->right_fork->last_philo = ph->n;
-			pthread_mutex_lock(ph->left_fork->mutex);
-			pthread_mutex_lock(ph->right_fork->mutex);
-			ph->last_meal = ft_get_time();
-			usleep(ph->info->ms_to_eat * 1000);
-			pthread_mutex_unlock(ph->left_fork->mutex);
-			pthread_mutex_unlock(ph->right_fork->mutex);
-			usleep(ph->info->ms_to_sleep * 1000);
-		}
+		ft_get_forks(ph);
+		ph->last_meal = ft_get_time();
+		usleep(ph->info->ms_to_eat * 1000);
+		pthread_mutex_unlock(ph->left_fork->mutex);
+		pthread_mutex_unlock(ph->right_fork->mutex);
 	}
 	return (0x000);
 }
@@ -68,7 +57,8 @@ int			ft_check(t_core *core)
 	i = 0;
 	while (1)
 	{
-		usleep(100);
+		usleep(1000);
+		printf("philo %d has last meal %ld\n", i, ft_get_time() - core->ph[i].last_meal);
 		if (ft_get_time() - core->ph[i].last_meal > core->info->ms_to_die)
 		{
 			printf("%ld ? ", ft_get_time()  - core->ph[i].last_meal);
