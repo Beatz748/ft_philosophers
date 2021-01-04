@@ -1,35 +1,5 @@
 #include "philo_one.h"
 
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	if (!s || fd < 0)
-		return ;
-	write(fd, s, ft_strlen(s));
-}
-
-void	ft_putnbr_fd(int n, int fd)
-{
-	if (n == -2147483648)
-		ft_putstr_fd("-2147483648", fd);
-	else if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		ft_putnbr_fd(-n, fd);
-	}
-	else if (n > 9)
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putchar_fd(n % 10 + '0', fd);
-	}
-	else
-		ft_putchar_fd(n + '0', fd);
-}
-
 size_t	ft_strlen(char *str)
 {
 	int	i;
@@ -40,6 +10,22 @@ size_t	ft_strlen(char *str)
 		i++;
 	}
 	return (i);
+}
+
+int		ft_strcpy(char *dst, const char *src)
+{
+	size_t x;
+
+	x = 0;
+	if (!dst || !src)
+		return (0);
+	while (src[x])
+	{
+		dst[x] = src[x];
+		x++;
+	}
+	dst[x] = '\0';
+	return (ft_strlen(dst));
 }
 
 int		ft_valid(t_core *core)
@@ -57,38 +43,89 @@ void	ft_error_msg(char *err)
 		exit(EXIT_FAILURE);
 }
 
-int		ft_print_stat(int num, t_philo *ph)
+static	int ft_num_buf(size_t num, char *buf)
 {
-	ft_putnbr_fd(ft_get_time() - ph->info->start_ms, 1);
-	ft_putstr_fd(" ms --- philo ", 1);
-	ft_putnbr_fd(ph->n, 1);
+	int		i;
+	size_t	copy;
+	size_t	length;
+
+	i = 0;
+	copy = num;
+	if (num == 0)
+	{
+		i = 1;
+		buf[0] = 0x030;
+	}
+	while (copy)
+	{
+		copy /= 10;
+		i++;
+	}
+	length = i--;
+	while (num)
+	{
+		buf[i--] = (num % 10) + 0x030;
+		num /= 10;
+	}
+	return (length);
+}
+
+int		ft_print_stat(size_t num, t_philo *ph)
+{
+	int		length;
+	char	msg[50];
+
+	length = ft_num_buf(ft_get_time() - ph->info->start_ms, msg);
+	length += ft_strcpy(&msg[length], "ms philo ");
+	length += ft_num_buf(ph->n, &msg[length]);
 	if (num == DEATH)
-		ft_putstr_fd(" is dead, call later\n", 1);
+		length += ft_strcpy(&msg[length], " is dead, call later\n");
 	if (num == TOOK_FORK)
-		ft_putstr_fd(" has taken fork\n", 1);
+		length += ft_strcpy(&msg[length], " has taken fork\n");
 	if (num == SLEEP)
-		ft_putstr_fd(" is sleeping now\n", 1);
+		length += ft_strcpy(&msg[length], " is sleeping now\n");
 	if (num == EAT)
-		ft_putstr_fd(" is eating now\n", 1);
-	return (num);
+		length += ft_strcpy(&msg[length], " is eating now\n");
+	write(1, msg, length);
+	return (length);
 }
 
 int		ft_print_error(int num)
 {
+	int		length;
+	char	msg[60];
+
+	length = ft_strcpy(&msg[0], "\033[0;35m");
 	if (num == ERR_TIME)
-		ft_error_msg("\033[0;35man error has occured - timeofday\033[0m\n");
+		length += ft_strcpy(&msg[length], "an error has occured - timeofday");
 	if (num == ERR_ARG)
-		ft_error_msg("\033[0;35man error has occured - bad arguments\033[0m\n");
+		length += ft_strcpy(&msg[length], "an error has occured - bad arguments");
 	if (num == ERR_MALLOC)
-		ft_error_msg("\033[0;35man error has occured, malloc refused\033[0m\n");
+		length += ft_strcpy(&msg[length], "an error has occured, malloc refused");
 	if (num == ERR_MUTEX)
-		ft_error_msg("\033[0;35man error has occured, mutex refused\033[0m\n");
+		length += ft_strcpy(&msg[length], "an error has occured, mutex refused");
+	length += ft_strcpy(&msg[length], "\033[0m\n");
+	write(1, msg, length);
 	return (num);
+}
+void	ft_usleep(size_t time)
+{
+	struct timeval	start;
+	struct timeval	new;
+
+	gettimeofday(&start, NULL);
+	while (42)
+	{
+		usleep(42);
+		gettimeofday(&new, NULL);
+		if (((new.tv_sec - start.tv_sec) * 1000000 + new.tv_usec - start.tv_usec) > time)
+			break ;
+	}
 }
 
 size_t	ft_get_time(void)
 {
-	static struct timeval	time;
+	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (ft_print_error(ERR_TIME));

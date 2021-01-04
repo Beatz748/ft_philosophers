@@ -55,10 +55,11 @@ typedef struct	s_core
 size_t	ft_strlen(char *str);
 size_t	ft_get_time(void);
 int		ft_init(t_core *core);
-int		ft_print_stat(int num, t_philo *ph);
+int		ft_print_stat(size_t num, t_philo *ph);
 int		ft_parser(int argc, char **argv, t_core *core);
 int		ft_start_eating(t_core *core, size_t ms_start, size_t num);
 int		ft_valid(t_core *core);
 int		ft_print_error(int num);
 #include <stdio.h>
+void	ft_usleep(size_t time);
 #endif
