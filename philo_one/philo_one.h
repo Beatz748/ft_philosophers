@@ -12,7 +12,10 @@
 # define ERR_ARG -2
 # define ERR_MALLOC -3
 # define ERR_MUTEX -4
-# define DEATH -1
+# define DEATH 1
+# define TOOK_FORK 2
+# define SLEEP 3
+# define EAT 4
 
 typedef struct	s_fork
 {
@@ -27,6 +30,7 @@ typedef struct	s_info
 	size_t		ms_to_sleep;
 	size_t		start_ms;
 	size_t		finish_rounds;
+	pthread_mutex_t	*print_mutex;
 }				t_info;
 
 typedef struct	s_philo
@@ -51,7 +55,7 @@ typedef struct	s_core
 size_t	ft_strlen(char *str);
 size_t	ft_get_time(void);
 int		ft_init(t_core *core);
-int		ft_print_stat(int num, int i);
+int		ft_print_stat(int num, t_philo *ph);
 int		ft_parser(int argc, char **argv, t_core *core);
 int		ft_start_eating(t_core *core, size_t ms_start, size_t num);
 int		ft_valid(t_core *core);

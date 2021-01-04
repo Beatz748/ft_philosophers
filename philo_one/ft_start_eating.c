@@ -9,8 +9,8 @@ int			ft_get_forks(t_philo *ph)
 	t_fork	*fork;
 
 	i = 0;
-	fork = ph->right_fork;
-	if (ph->n % 2)
+	// fork = ph->right_fork;
+	// if (ph->n % 2)
 		fork = ph->left_fork;
 	while (i < 2)
 	{
@@ -18,19 +18,23 @@ int			ft_get_forks(t_philo *ph)
 			return (ERR_MUTEX);
 		if (fork->last_philo != ph->n)
 		{
+			// printf("philo %d took fork\n", ph->n);
 			fork->last_philo = ph->n;
 			if (++i > 1)
 				break ;
-				printf("philo %d took fork 1\n", ph->n);
-			fork = ph->left_fork;
-			if (ph->n % 2)
+			// fork = ph->left_fork;
+			// if (ph->n % 2)
 				fork = ph->right_fork;
-				printf("philo %d took fork 2\n", ph->n);
 		}
 		else if (pthread_mutex_unlock(fork->mutex))
 			return (ERR_MUTEX);
 	}
 	return (0x000);
+}
+
+void		ft_print(t_philo *ph)
+{
+
 }
 
 static void	*ft_hello(void *ptr)
@@ -40,11 +44,22 @@ static void	*ft_hello(void *ptr)
 	ph = (t_philo*)ptr;
 	while (1)
 	{
-		ft_get_forks(ph);
+		// ft_get_forks(ph);
+		pthread_mutex_lock(ph->left_fork->mutex);
+		// usleep(100);
+		pthread_mutex_lock(ph->right_fork->mutex);
+		pthread_mutex_lock(ph->info->print_mutex);
+		ft_print_stat(TOOK_FORK, ph);
+		pthread_mutex_unlock(ph->info->print_mutex);
 		ph->last_meal = ft_get_time();
 		usleep(ph->info->ms_to_eat * 1000);
 		pthread_mutex_unlock(ph->left_fork->mutex);
 		pthread_mutex_unlock(ph->right_fork->mutex);
+		pthread_mutex_lock(ph->info->print_mutex);
+		ft_print_stat(SLEEP, ph);
+		pthread_mutex_unlock(ph->info->print_mutex);
+		usleep(ph->info->ms_to_sleep * 1000);
+				printf(" \033[41m  IT'S DEBUG !!! === %s \033[0m \n", "lol");
 	}
 	return (0x000);
 }
@@ -57,19 +72,9 @@ int			ft_check(t_core *core)
 	i = 0;
 	while (1)
 	{
-		usleep(1000);
-		printf("philo %d has last meal %ld\n", i, ft_get_time() - core->ph[i].last_meal);
-		if (ft_get_time() - core->ph[i].last_meal > core->info->ms_to_die)
-		{
-			printf("%ld ? ", ft_get_time()  - core->ph[i].last_meal);
-			printf("  %ld\n", core->info->ms_to_die);
-			return (ft_print_stat(DEATH, i));
-		}
-	// while(i < core->number)
-	// {
-	// 	printf("philo %d last meal = %ld\n", i, ft_get_time() - core->ph[i].last_meal);
-	// 	i++;
-	// }
+		usleep(100);
+		// if (ft_get_time() - core->ph[i].last_meal > core->info->ms_to_die)
+		// 	return (ft_print_stat(DEATH, &(core->ph[i])));
 		i++;
 		if (i >= core->number)
 			i = 0;

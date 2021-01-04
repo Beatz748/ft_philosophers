@@ -57,14 +57,19 @@ void	ft_error_msg(char *err)
 		exit(EXIT_FAILURE);
 }
 
-int		ft_print_stat(int num, int i)
+int		ft_print_stat(int num, t_philo *ph)
 {
+	ft_putnbr_fd(ft_get_time() - ph->info->start_ms, 1);
+	ft_putstr_fd(" ms --- philo ", 1);
+	ft_putnbr_fd(ph->n, 1);
 	if (num == DEATH)
-	{
-		ft_putstr_fd("philo ", 1);
-		ft_putnbr_fd(i, 1);
 		ft_putstr_fd(" is dead, call later\n", 1);
-	}
+	if (num == TOOK_FORK)
+		ft_putstr_fd(" has taken fork\n", 1);
+	if (num == SLEEP)
+		ft_putstr_fd(" is sleeping now\n", 1);
+	if (num == EAT)
+		ft_putstr_fd(" is eating now\n", 1);
 	return (num);
 }
 

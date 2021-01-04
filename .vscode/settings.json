@@ -7,7 +7,7 @@
 	"git.enableSmartCommit": true,
 	"git.confirmSync": false,
 	"explorer.confirmDragAndDrop": false,
-	"window.zoomLevel": 1,
+	"window.zoomLevel": 0.1,
 	"explorer.confirmDelete": false,
 	"files.autoSave": "afterDelay",
 	"synthwave84.disableGlow": true,

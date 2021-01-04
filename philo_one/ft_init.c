@@ -25,7 +25,6 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 		ph[i].left_fork = &(core->forks[i]);
 		ph[i].right_fork = &(core->forks[(i + 1) % num]);
 	}
-			// printf(" \033[41m  IT'S DEBUG !!! === %ld \033[0m \n", ft_get_time() - core->info->start_ms);
 	return (SUCCESS);
 }
 
@@ -39,5 +38,9 @@ int				ft_init(t_core *core)
 		return (ERR_MALLOC);
 	if ((ret = ft_init_forks((core->ph), core->number, core)))
 		return (ret);
+	if (!(core->info->print_mutex = (pthread_mutex_t*)malloc(sizeof(pthread_mutex_t))))
+		return (ERR_MALLOC);
+	if (pthread_mutex_init(core->info->print_mutex, NULL))
+		return (ERR_MUTEX);
 	return (SUCCESS);
 }
