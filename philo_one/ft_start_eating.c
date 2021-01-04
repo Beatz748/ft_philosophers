@@ -1,8 +1,5 @@
 #include "philo_one.h"
 
-pthread_mutex_t *fork1;
-pthread_mutex_t *fork2;
-
 int			ft_get_forks(t_philo *ph)
 {
 	int		i;
@@ -36,12 +33,9 @@ static void	*ft_hello(void *ptr)
 	t_philo *ph;
 
 	ph = (t_philo*)ptr;
-	while (1)
+	while (ph->round != ph->info->finish_rounds)
 	{
-		// ft_get_forks(ph);
-		pthread_mutex_lock(ph->left_fork->mutex);
-		// ft_usleep(1000);
-		pthread_mutex_lock(ph->right_fork->mutex);
+		ft_get_forks(ph);
 		pthread_mutex_lock(ph->info->print_mutex);
 		ft_print_stat(TOOK_FORK, ph);
 		pthread_mutex_unlock(ph->info->print_mutex);
@@ -53,6 +47,7 @@ static void	*ft_hello(void *ptr)
 		ft_print_stat(SLEEP, ph);
 		pthread_mutex_unlock(ph->info->print_mutex);
 		ft_usleep(ph->info->ms_to_sleep * 1000);
+		ph->round++;
 	}
 	return (0x000);
 }
@@ -78,10 +73,7 @@ int			ft_check(t_core *core)
 int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
 {
 	int	i;
-	fork1 = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	fork2 = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(fork1, NULL);
-	pthread_mutex_init(fork2, NULL);
+
 	i = 0;
 	while (i < num)
 	{
