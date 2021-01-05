@@ -60,7 +60,7 @@ int			ft_check(t_core *core)
 	i = 0;
 	while (1)
 	{
-		ft_usleep(100);
+		usleep(100);
 		if (ft_get_time() - core->ph[i].last_meal > core->info->ms_to_die)
 		{
 			pthread_mutex_lock(core->info->print_mutex);
@@ -85,7 +85,7 @@ int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
 		i++;
 	}
 		ft_check(core);
-		exit(0);
+		// exit(0);
 	i = 0;
 	while (i < num)
 	{
