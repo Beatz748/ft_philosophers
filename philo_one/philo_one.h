@@ -25,11 +25,12 @@ typedef struct	s_fork
 
 typedef struct	s_info
 {
-	size_t		ms_to_die;
-	size_t		ms_to_eat;
-	size_t		ms_to_sleep;
-	size_t		start_ms;
-	size_t		finish_rounds;
+	int				status;
+	size_t			ms_to_die;
+	size_t			ms_to_eat;
+	size_t			ms_to_sleep;
+	size_t			start_ms;
+	size_t			finish_rounds;
 	pthread_mutex_t	*print_mutex;
 }				t_info;
 

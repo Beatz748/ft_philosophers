@@ -76,14 +76,14 @@ int		ft_print_stat(size_t num, t_philo *ph)
 	char	msg[50];
 
 	length = ft_num_buf(ft_get_time() - ph->info->start_ms, msg);
-	length += ft_strcpy(&msg[length], "ms philo ");
+	length += ft_strcpy(&msg[length], "ms ");
 	length += ft_num_buf(ph->n, &msg[length]);
 	if (num == DEATH)
-		length += ft_strcpy(&msg[length], " is dead, call later\n");
+		length += ft_strcpy(&msg[length], " died\n");
 	if (num == TOOK_FORK)
-		length += ft_strcpy(&msg[length], " has taken fork\n");
+		length += ft_strcpy(&msg[length], " has taken a fork\n");
 	if (num == SLEEP)
-		length += ft_strcpy(&msg[length], " is sleeping now\n");
+		length += ft_strcpy(&msg[length], " is sleeping\n");
 	if (num == EAT)
 		length += ft_strcpy(&msg[length], " is eating now\n");
 	write(1, msg, length);
