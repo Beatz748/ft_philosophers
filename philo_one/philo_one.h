@@ -37,6 +37,7 @@ typedef struct	s_info
 typedef struct	s_philo
 {
 	int			n;
+	int			death;
 	int			round;
 	size_t		last_meal;
 	t_fork		*left_fork;

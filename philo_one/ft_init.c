@@ -3,7 +3,6 @@
 static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 {
 	int		i;
-	t_fork	*fork;
 
 	i = -1;
 	if (!(core->forks = (t_fork*)malloc(sizeof(t_fork) * num)))
@@ -19,6 +18,7 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 	i = -1;
 	while (++i < num)
 	{
+		ph[i].death = 0;
 		ph[i].info = core->info;
 		ph[i].last_meal = ft_get_time() - ph->info->start_ms;
 		ph[i].n = i;

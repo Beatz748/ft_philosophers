@@ -1,11 +1,19 @@
 #include "philo_one.h"
 
+int			ft_check_status(t_philo *ph)
+{
+	if (ft_get_time() - ph->last_meal > ph->info->ms_to_die)
+		ph->death = 1;
+	return (SUCCESS);
+}
+
 int			ft_get_forks(t_philo *ph)
 {
 	int		i;
 	t_fork	*fork;
 
 	i = 0;
+	ft_check_status(ph);
 	fork = ph->right_fork;
 	if (ph->n % 2)
 		fork = ph->left_fork;
@@ -52,6 +60,22 @@ static void	*ft_hello(void *ptr)
 	return (0x000);
 }
 
+int			ft_check_fin(t_core *core)
+{
+	int	i;
+
+	i = 0;
+	while (i != core->number)
+	{
+		usleep(100);
+		if (core->ph[i].round == core->info->finish_rounds)
+			i++;
+		else
+			i = 0;
+	}
+	return (SUCCESS);
+}
+
 int			ft_check(t_core *core)
 {
 	int		i;
@@ -61,12 +85,14 @@ int			ft_check(t_core *core)
 	while (1)
 	{
 		usleep(100);
-		if (ft_get_time() - core->ph[i].last_meal > core->info->ms_to_die)
+		if (core->ph[i].death == 1)
 		{
 			pthread_mutex_lock(core->info->print_mutex);
 			ft_print_stat(DEATH, &(core->ph[i]));
 			break ;
 		}
+		if (core->ph[i].round == core->info->finish_rounds)
+			return (ft_check_fin(core));
 		i++;
 		if (i >= core->number)
 			i = 0;
