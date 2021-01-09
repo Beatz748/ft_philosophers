@@ -42,6 +42,11 @@ int				ft_init(t_core *core)
 	if (!(core->info->print_mutex = (pthread_mutex_t*)
 	malloc(sizeof(pthread_mutex_t))))
 		return (ERR_MALLOC);
+	if (!(core->info->check_mutex = (pthread_mutex_t*)
+	malloc(sizeof(pthread_mutex_t))))
+		return (ERR_MALLOC);
+	if (pthread_mutex_init(core->info->check_mutex, NULL))
+		return (ERR_MUTEX);
 	if (pthread_mutex_init(core->info->print_mutex, NULL))
 		return (ERR_MUTEX);
 	return (SUCCESS);

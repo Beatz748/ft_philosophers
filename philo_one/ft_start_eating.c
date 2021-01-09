@@ -1,12 +1,5 @@
 #include "philo_one.h"
 
-int			ft_check_status(t_philo *ph)
-{
-	if (ft_get_time() - ph->last_meal > ph->info->ms_to_die)
-		ph->death = 1;
-	return (SUCCESS);
-}
-
 void		ft_random(t_philo *ph, int *i, t_fork **fork)
 {
 	*i = 0;
@@ -52,8 +45,12 @@ static int	ft_eat(t_philo *ph)
 	ft_print_stat(EAT, ph);
 	if (pthread_mutex_unlock(ph->info->print_mutex))
 		return (ERR_MUTEX);
+	if (pthread_mutex_lock(ph->info->check_mutex))
+		return (ERR_MUTEX);
 	ph->last_meal = ft_get_time();
 	ph->round++;
+	if (pthread_mutex_unlock(ph->info->check_mutex))
+		return (ERR_MUTEX);
 	ft_usleep(ph->info->ms_to_eat * 1000);
 	if (pthread_mutex_unlock(ph->left_fork->mutex))
 		return (ERR_MUTEX);
@@ -86,66 +83,18 @@ static void	*ft_hello(void *ptr)
 	return (0x000);
 }
 
-int			ft_check_fin(t_core *core)
-{
-	int	i;
-
-	i = 0;
-	while (i != core->number)
-	{
-		usleep(100);
-		if (core->ph[i].round == core->info->finish_rounds)
-			i++;
-		else
-			i = 0;
-	}
-	return (SUCCESS);
-}
-
-int			ft_check(t_core *core)
-{
-	int		i;
-	size_t	now;
-
-	i = 0;
-	while (1)
-	{
-		usleep(100);
-		ft_check_status(&(core->ph[i]));
-		if (core->ph[i].death == 1)
-		{
-			if (pthread_mutex_lock(core->info->print_mutex))
-				return (ERR_MUTEX);
-			ft_print_stat(DEATH, &(core->ph[i]));
-			break ;
-		}
-		if (core->ph[i].round == core->info->finish_rounds)
-			return (ft_check_fin(core));
-		i++;
-		if (i >= core->number)
-			i = 0;
-	}
-	return (SUCCESS);
-}
-
 int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
 {
 	int	i;
 
-	i = 0;
-	while (i < num)
-	{
+	i = -1;
+	while (++i < num)
 		if (pthread_create(&(core->thread[i]), NULL, ft_hello, &(core->ph[i])))
 			return (ERR_MUTEX);
-		i++;
-	}
 	ft_check(core);
-	i = 0;
-	while (i < num)
-	{
+	i = -1;
+	while (++i < num)
 		if (pthread_detach(core->thread[i]))
 			return (ERR_MUTEX);
-		i++;
-	}
 	return (SUCCESS);
 }
