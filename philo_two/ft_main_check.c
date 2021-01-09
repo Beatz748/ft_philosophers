@@ -1,4 +1,4 @@
-#include "philo_one.h"
+#include "philo_two.h"
 
 static int	ft_check_status(t_philo *ph)
 {
@@ -56,6 +56,7 @@ int			ft_check(t_core *core)
 			return (ft_check_fin(core));
 		if (pthread_mutex_unlock(core->info->check_mutex))
 			return (ERR_MUTEX);
+		// i++;
 		if (++i >= core->number)
 			i = 0;
 	}
