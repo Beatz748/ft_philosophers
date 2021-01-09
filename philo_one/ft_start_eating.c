@@ -13,7 +13,6 @@ int			ft_get_forks(t_philo *ph)
 	t_fork	*fork;
 
 	i = 0;
-	ft_check_status(ph);
 	fork = ph->right_fork;
 	if (ph->n % 2)
 		fork = ph->left_fork;
@@ -48,6 +47,7 @@ static void	*ft_hello(void *ptr)
 		ft_print_stat(TOOK_FORK, ph);
 		pthread_mutex_unlock(ph->info->print_mutex);
 		ph->last_meal = ft_get_time();
+		ph->round++;
 		ft_usleep(ph->info->ms_to_eat * 1000);
 		pthread_mutex_unlock(ph->left_fork->mutex);
 		pthread_mutex_unlock(ph->right_fork->mutex);
@@ -55,7 +55,6 @@ static void	*ft_hello(void *ptr)
 		ft_print_stat(SLEEP, ph);
 		pthread_mutex_unlock(ph->info->print_mutex);
 		ft_usleep(ph->info->ms_to_sleep * 1000);
-		ph->round++;
 	}
 	return (0x000);
 }
@@ -85,6 +84,7 @@ int			ft_check(t_core *core)
 	while (1)
 	{
 		usleep(100);
+		ft_check_status(&(core->ph[i]));
 		if (core->ph[i].death == 1)
 		{
 			pthread_mutex_lock(core->info->print_mutex);
@@ -110,8 +110,7 @@ int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
 		pthread_create(&(core->thread[i]), NULL, ft_hello, &(core->ph[i]));
 		i++;
 	}
-		ft_check(core);
-		// exit(0);
+	ft_check(core);
 	i = 0;
 	while (i < num)
 	{

@@ -15,6 +15,7 @@ int		main(int argc, char **argv)
 	if ((ret = ft_init(core)))
 		return (ft_print_error(ret));
 	core->info->start_ms = ft_get_time();
-	if (!ft_start_eating(core, core->info->start_ms, core->number))
+	if (ft_start_eating(core, core->info->start_ms, core->number))
 		return (ft_print_error(EXIT_FAILURE));
+	getchar();
 }
