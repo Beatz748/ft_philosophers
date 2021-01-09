@@ -12,10 +12,12 @@
 # define ERR_ARG -2
 # define ERR_MALLOC -3
 # define ERR_MUTEX -4
+# define ERR_WRITE -5
 # define DEATH 1
 # define TOOK_FORK 2
 # define SLEEP 3
 # define EAT 4
+# define THINK 5
 
 typedef struct	s_fork
 {
@@ -63,5 +65,5 @@ int		ft_start_eating(t_core *core, size_t ms_start, size_t num);
 int		ft_valid(t_core *core);
 int		ft_print_error(int num);
 #include <stdio.h>
-void	ft_usleep(size_t time);
+int		ft_usleep(size_t time);
 #endif

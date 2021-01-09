@@ -4,7 +4,7 @@ INCS				=	philo_one.h
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	gcc
+CC				=	gcc -g
 
 RM				=	rm -rf
 
@@ -14,4 +14,12 @@ all:			$(NAME)
 
 $(NAME):		$(OBJS)
 				$(CC)  -o $(NAME) ${OBJS} ${INCLIB}
-				@echo "Done"
+				@echo "\033[1;32mDone"
+
+clean:
+					$(RM) $(OBJS)
+
+fclean:			clean
+					$(RM) $(NAME)
+
+re:				fclean $(NAME)

@@ -35,7 +35,8 @@ int				ft_parser(int argc, char **argv, t_core *core)
 			return (ERR_ARG);
 		if (i == 4 && ft_new_atoi(argv[i], &(core->info->ms_to_sleep)))
 			return (ERR_ARG);
-		if (argc == 6 && i == 5 && ft_new_atoi(argv[i], &(core->info->finish_rounds)))
+		if (argc == 6 && i == 5 &&
+		ft_new_atoi(argv[i], &(core->info->finish_rounds)))
 			return (ERR_ARG);
 	}
 	return (ft_valid(core));

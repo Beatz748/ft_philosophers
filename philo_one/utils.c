@@ -85,8 +85,11 @@ int		ft_print_stat(size_t num, t_philo *ph)
 	if (num == SLEEP)
 		length += ft_strcpy(&msg[length], " is sleeping\n");
 	if (num == EAT)
-		length += ft_strcpy(&msg[length], " is eating now\n");
-	write(1, msg, length);
+		length += ft_strcpy(&msg[length], " is eating\n");
+	if (num == THINK)
+		length += ft_strcpy(&msg[length], " is thinking\n");
+	if (write(1, msg, length) != length)
+		return (ERR_WRITE);
 	return (length);
 }
 
@@ -105,22 +108,27 @@ int		ft_print_error(int num)
 	if (num == ERR_MUTEX)
 		length += ft_strcpy(&msg[length], "an error has occured, mutex refused");
 	length += ft_strcpy(&msg[length], "\033[0m\n");
-	write(1, msg, length);
+	if (write(1, msg, length) != length)
+		return (ERR_WRITE);
 	return (num);
 }
-void	ft_usleep(size_t time)
+
+int		ft_usleep(size_t time)
 {
 	struct timeval	start;
 	struct timeval	new;
 
-	gettimeofday(&start, NULL);
+	if (gettimeofday(&start, NULL) == -1)
+		return (ft_print_error(ERR_TIME));
 	while (42)
 	{
 		usleep(42);
-		gettimeofday(&new, NULL);
+		if (gettimeofday(&new, NULL))
+			return (ft_print_error(ERR_TIME));
 		if (((new.tv_sec - start.tv_sec) * 1000000 + new.tv_usec - start.tv_usec) > time)
 			break ;
 	}
+	return (SUCCESS);
 }
 
 size_t	ft_get_time(void)
