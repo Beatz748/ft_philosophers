@@ -16,28 +16,33 @@ static size_t	ft_new_atoi(char *str, size_t *dst)
 	return (SUCCESS);
 }
 
+int				ft_mini_clear(t_core *core, int err)
+{
+	free(core->info);
+	free(core);
+	return (err);
+}
+
 int				ft_parser(int argc, char **argv, t_core *core)
 {
 	int		i;
 
-	if (argc < 5 || argc > 6)
-		return (ERR_ARG);
 	i = 0;
 	if (!(core->info = (t_info*)malloc(sizeof(t_info))))
 		return (ERR_MALLOC);
 	while (i++ < argc)
 	{
 		if (i == 1 && ft_new_atoi(argv[i], &core->number))
-			return (ERR_ARG);
+			return (ft_mini_clear(core, ERR_ARG));
 		if (i == 2 && ft_new_atoi(argv[i], &(core->info->ms_to_die)))
-			return (ERR_ARG);
+			return (ft_mini_clear(core, ERR_ARG));
 		if (i == 3 && ft_new_atoi(argv[i], &(core->info->ms_to_eat)))
-			return (ERR_ARG);
+			return (ft_mini_clear(core, ERR_ARG));
 		if (i == 4 && ft_new_atoi(argv[i], &(core->info->ms_to_sleep)))
-			return (ERR_ARG);
+			return (ft_mini_clear(core, ERR_ARG));
 		if (argc == 6 && i == 5 &&
 		ft_new_atoi(argv[i], &(core->info->finish_rounds)))
-			return (ERR_ARG);
+			return (ft_mini_clear(core, ERR_ARG));
 	}
 	return (ft_valid(core));
 }

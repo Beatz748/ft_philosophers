@@ -33,17 +33,11 @@ int		ft_valid(t_core *core)
 	if (core->number > 200 || core->number < 2 ||
 	core->info->ms_to_die < 60
 	|| core->info->ms_to_eat < 60 || core->info->ms_to_sleep < 60)
-		return (ERR_ARG);
+		return (ft_mini_clear(core, ERR_ARG));
 	return (SUCCESS);
 }
 
-void	ft_error_msg(char *err)
-{
-	if (write(2, err, ft_strlen(err)) != ft_strlen(err))
-		exit(EXIT_FAILURE);
-}
-
-static	int ft_num_buf(size_t num, char *buf)
+static int	ft_num_buf(size_t num, char *buf)
 {
 	int		i;
 	size_t	copy;
@@ -95,20 +89,20 @@ int		ft_print_stat(size_t num, t_philo *ph)
 
 int		ft_print_error(int num)
 {
-	int		length;
+	int		len;
 	char	msg[60];
 
-	length = ft_strcpy(&msg[0], "\033[0;35m");
+	len = ft_strcpy(&msg[0], "\033[0;35m");
 	if (num == ERR_TIME)
-		length += ft_strcpy(&msg[length], "an error has occured - timeofday");
+		len += ft_strcpy(&msg[len], "an error has occured - timeofday");
 	if (num == ERR_ARG)
-		length += ft_strcpy(&msg[length], "an error has occured - bad arguments");
+		len += ft_strcpy(&msg[len], "an error has occured - bad arguments");
 	if (num == ERR_MALLOC)
-		length += ft_strcpy(&msg[length], "an error has occured, malloc refused");
+		len += ft_strcpy(&msg[len], "an error has occured, malloc refused");
 	if (num == ERR_MUTEX)
-		length += ft_strcpy(&msg[length], "an error has occured, mutex refused");
-	length += ft_strcpy(&msg[length], "\033[0m\n");
-	if (write(1, msg, length) != length)
+		len += ft_strcpy(&msg[len], "an error has occured, mutex refused");
+	len += ft_strcpy(&msg[len], "\033[0m\n");
+	if (write(2, msg, len) != len)
 		return (ERR_WRITE);
 	return (num);
 }
@@ -125,7 +119,8 @@ int		ft_usleep(size_t time)
 		usleep(42);
 		if (gettimeofday(&new, NULL))
 			return (ft_print_error(ERR_TIME));
-		if (((new.tv_sec - start.tv_sec) * 1000000 + new.tv_usec - start.tv_usec) > time)
+		if (((new.tv_sec - start.tv_sec) * 1000000 +
+		new.tv_usec - start.tv_usec) > time)
 			break ;
 	}
 	return (SUCCESS);

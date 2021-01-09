@@ -64,6 +64,7 @@ int		ft_parser(int argc, char **argv, t_core *core);
 int		ft_start_eating(t_core *core, size_t ms_start, size_t num);
 int		ft_valid(t_core *core);
 int		ft_print_error(int num);
-#include <stdio.h>
 int		ft_usleep(size_t time);
+int		ft_mini_clear(t_core *core, int err);
+
 #endif
