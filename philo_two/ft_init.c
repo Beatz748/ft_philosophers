@@ -8,6 +8,7 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 	sem_unlink(SEM_HELP);
 	sem_unlink(SEM_WRITE);
 	sem_unlink(SEM_TABLE);
+	sem_unlink(SEM_READ);
 	if ((core->info->forks = sem_open(SEM_TABLE, O_CREAT | S_IRWXU, 0644, num)) == SEM_FAILED)
 		return (ERR_SEM);
 	if ((core->info->helper = sem_open(SEM_HELP, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)

@@ -69,6 +69,7 @@ int				ft_mini_clear(t_core *core, int err);
 int				ft_check(t_core *core);
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <semaphore.h>

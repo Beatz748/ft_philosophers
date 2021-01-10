@@ -4,7 +4,7 @@ INCS				=	philo_two.h
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	gcc -g
+CC				=	clang -g -fsanitize=thread
 
 RM				=	rm -rf
 
@@ -13,12 +13,11 @@ NAME			= philo_two
 all:			$(NAME)
 
 $(NAME):		$(OBJS)
-				@echo "\033[1;32m"
-				$(CC)  -o $(NAME) ${OBJS} ${INCLIB}
-				@echo "\033[1;35mDone"
+				$(CC) -lpthread -o $(NAME) ${OBJS} ${INCLIB}
+				@echo "Done"
 
 clean:
-					@echo "\033[1;33mcleaning"
+					@echo "cleaning"
 					$(RM) $(OBJS)
 
 fclean:			clean
