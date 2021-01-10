@@ -59,7 +59,7 @@ static int	ft_eat(t_philo *ph)
 	return (SUCCESS);
 }
 
-static void	*ft_hello(void *ptr)
+static void	*ft_philo(void *ptr)
 {
 	t_philo *ph;
 
@@ -89,7 +89,7 @@ int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
 
 	i = -1;
 	while (++i < num)
-		if (pthread_create(&(core->thread[i]), NULL, ft_hello, &(core->ph[i])))
+		if (pthread_create(&(core->thread[i]), NULL, ft_philo, &(core->ph[i])))
 			return (ERR_MUTEX);
 	ft_check(core);
 	i = -1;

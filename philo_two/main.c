@@ -1,20 +1,20 @@
 #include "philo_two.h"
 
-void	ft_clear(t_core *core)
-{
-	int	i;
+// void	ft_clear(t_core *core)
+// {
+// 	int	i;
 
-	i = -1;
-	while (++i < core->number)
-	{
-		pthread_mutex_destroy(core->forks->mutex);
-		free(core->forks[i].mutex);
-	}
-	free(core->info->print_mutex);
-	free(core->forks);
-	free(core->thread);
-	free(core);
-}
+// 	i = -1;
+// 	while (++i < core->number)
+// 	{
+// 		pthread_mutex_destroy(core->forks->mutex);
+// 		free(core->forks[i].mutex);
+// 	}
+// 	free(core->info->print_mutex);
+// 	free(core->forks);
+// 	free(core->thread);
+// 	free(core);
+// }
 
 int		main(int argc, char **argv)
 {
@@ -35,5 +35,5 @@ int		main(int argc, char **argv)
 	core->info->start_ms = ft_get_time();
 	if (ft_start_eating(core, core->info->start_ms, core->number))
 		return (ft_print_error(EXIT_FAILURE));
-	ft_clear(core);
+	// ft_clear(core);
 }

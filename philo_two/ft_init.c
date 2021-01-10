@@ -5,17 +5,13 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 	int		i;
 
 	i = -1;
-	if (!(core->forks = (t_fork*)malloc(sizeof(t_fork) * num)))
-		return (ERR_MALLOC);
-	memset(core->forks, 0, sizeof(t_fork) * num);
-	while (++i < num)
-	{
-		core->forks[i].last_philo = -1;
-		core->forks[i].mutex = (pthread_mutex_t*)
-		malloc(sizeof(pthread_mutex_t));
-		if (pthread_mutex_init(core->forks[i].mutex, NULL))
-			return (ERR_MUTEX);
-	}
+	sem_unlink(SEM_HELP);
+	sem_unlink(SEM_WRITE);
+	sem_unlink(SEM_TABLE);
+	if ((core->info->forks = sem_open(SEM_TABLE, O_CREAT | S_IRWXU, 0644, num)) == SEM_FAILED)
+		return (ERR_SEM);
+	if ((core->info->helper = sem_open(SEM_HELP, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
+		return (ERR_SEM);
 	i = -1;
 	while (++i < num)
 	{
@@ -23,8 +19,6 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 		ph[i].info = core->info;
 		ph[i].last_meal = ft_get_time() - ph->info->start_ms;
 		ph[i].n = i + 1;
-		ph[i].left_fork = &(core->forks[i]);
-		ph[i].right_fork = &(core->forks[(i + 1) % num]);
 	}
 	return (SUCCESS);
 }
@@ -39,15 +33,13 @@ int				ft_init(t_core *core)
 		return (ERR_MALLOC);
 	if ((ret = ft_init_forks((core->ph), core->number, core)))
 		return (ret);
-	if (!(core->info->print_mutex = (pthread_mutex_t*)
-	malloc(sizeof(pthread_mutex_t))))
+	if (!(core->info->print = (sem_t*)malloc(sizeof(sem_t))))
 		return (ERR_MALLOC);
-	if (!(core->info->check_mutex = (pthread_mutex_t*)
-	malloc(sizeof(pthread_mutex_t))))
+	if (!(core->info->read = (sem_t*)malloc(sizeof(sem_t))))
 		return (ERR_MALLOC);
-	if (pthread_mutex_init(core->info->check_mutex, NULL))
-		return (ERR_MUTEX);
-	if (pthread_mutex_init(core->info->print_mutex, NULL))
-		return (ERR_MUTEX);
+	if ((core->info->read =  sem_open(SEM_READ, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
+		return (ERR_SEM);
+	if ((core->info->print =  sem_open(SEM_WRITE, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
+		return (ERR_SEM);
 	return (SUCCESS);
 }

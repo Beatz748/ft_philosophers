@@ -62,8 +62,8 @@ int			ft_print_error(int num)
 		len += ft_strcpy(&msg[len], "an error has occured - bad arguments");
 	if (num == ERR_MALLOC)
 		len += ft_strcpy(&msg[len], "an error has occured, malloc refused");
-	if (num == ERR_MUTEX)
-		len += ft_strcpy(&msg[len], "an error has occured, mutex refused");
+	if (num == ERR_SEM)
+		len += ft_strcpy(&msg[len], "an error has occured, sem refused");
 	if (num == EXIT_FAILURE)
 		len += ft_strcpy(&msg[len], "ERROR");
 	len += ft_strcpy(&msg[len], "\033[0m\n");
