@@ -1,20 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/11 15:30:39 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 18:36:50 by kshantel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_two.h"
 
-// void	ft_clear(t_core *core)
-// {
-// 	int	i;
+void	ft_clear(t_core *core)
+{
+	int	i;
 
-// 	i = -1;
-// 	while (++i < core->number)
-// 	{
-// 		pthread_mutex_destroy(core->forks->mutex);
-// 		free(core->forks[i].mutex);
-// 	}
-// 	free(core->info->print_mutex);
-// 	free(core->forks);
-// 	free(core->thread);
-// 	free(core);
-// }
+	i = -1;
+	free(core->ph);
+	sem_unlink(SEM_TABLE);
+	sem_close(core->info->forks);
+	sem_unlink(SEM_HELP);
+	sem_close(core->info->helper);
+	sem_unlink(SEM_WRITE);
+	sem_close(core->info->print);
+	sem_unlink(SEM_READ);
+	sem_close(core->info->read);
+	free(core->info);
+	free(core);
+}
 
 int		main(int argc, char **argv)
 {
@@ -33,7 +47,7 @@ int		main(int argc, char **argv)
 	if ((ret = ft_init(core)))
 		return (ft_print_error(ret));
 	core->info->start_ms = ft_get_time();
-	if (ft_start_eating(core, core->info->start_ms, core->number))
+	if (ft_start_eating(core, core->number))
 		return (ft_print_error(EXIT_FAILURE));
-	// ft_clear(core);
+	ft_clear(core);
 }

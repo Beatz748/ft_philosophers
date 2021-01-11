@@ -1,6 +1,6 @@
 SRCS			=	ft_init.c ft_parser.c ft_start_eating.c main.c utils.c ft_messages.c ft_time.c ft_main_check.c
 
-INCS				=	philo_two.h
+INCS				=	philo_three.h
 
 OBJS			=	$(SRCS:.c=.o)
 
@@ -8,7 +8,7 @@ CC				=	clang -g -Wall -Werror -Wextra
 
 RM				=	rm -rf
 
-NAME			= philo_two
+NAME			= philo_three
 
 all:			$(NAME)
 

@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/11 15:30:07 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 15:30:08 by kshantel         ###   ########.fr       */
+/*   Created: 2021/01/11 15:30:30 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 16:15:49 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_three.h"
 
 static int	ft_num_buf(size_t num, char *buf)
 {
@@ -74,8 +74,8 @@ int			ft_print_error(int num)
 		len += ft_strcpy(&msg[len], "an error has occured - bad arguments");
 	if (num == ERR_MALLOC)
 		len += ft_strcpy(&msg[len], "an error has occured, malloc refused");
-	if (num == ERR_MUTEX)
-		len += ft_strcpy(&msg[len], "an error has occured, mutex refused");
+	if (num == ERR_SEM)
+		len += ft_strcpy(&msg[len], "an error has occured, sem refused");
 	if (num == EXIT_FAILURE)
 		len += ft_strcpy(&msg[len], "ERROR");
 	len += ft_strcpy(&msg[len], "\033[0m\n");

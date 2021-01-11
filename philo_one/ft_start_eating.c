@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_start_eating.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/11 15:30:10 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 18:17:21 by kshantel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
 void		ft_random(t_philo *ph, int *i, t_fork **fork)
@@ -64,7 +76,7 @@ static void	*ft_philo(void *ptr)
 	t_philo *ph;
 
 	ph = (t_philo*)ptr;
-	while (ph->round != ph->info->finish_rounds)
+	while ((size_t)ph->round != ph->info->finish_rounds)
 	{
 		ft_get_forks(ph);
 		ft_eat(ph);
@@ -83,17 +95,17 @@ static void	*ft_philo(void *ptr)
 	return (0x000);
 }
 
-int			ft_start_eating(t_core *core, size_t ms_start, size_t num)
+int			ft_start_eating(t_core *core, size_t num)
 {
 	int	i;
 
 	i = -1;
-	while (++i < num)
+	while (++i < (int)num)
 		if (pthread_create(&(core->thread[i]), NULL, ft_philo, &(core->ph[i])))
 			return (ERR_MUTEX);
 	ft_check(core);
 	i = -1;
-	while (++i < num)
+	while (++i < (int)num)
 		if (pthread_detach(core->thread[i]))
 			return (ERR_MUTEX);
 	return (SUCCESS);

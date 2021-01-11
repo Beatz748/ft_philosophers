@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_init.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/11 15:30:25 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 15:33:39 by kshantel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_two.h"
 
 static int		ft_init_forks(t_philo *ph, int num, t_core *core)
@@ -5,20 +17,20 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 	int		i;
 
 	i = -1;
-	sem_unlink(SEM_HELP);
-	sem_unlink(SEM_WRITE);
 	sem_unlink(SEM_TABLE);
-	sem_unlink(SEM_READ);
-	if ((core->info->forks = sem_open(SEM_TABLE, O_CREAT | S_IRWXU, 0644, num)) == SEM_FAILED)
+	if ((core->info->forks = sem_open(SEM_TABLE,
+	O_CREAT | S_IRWXU, 0644, num)) == SEM_FAILED)
 		return (ERR_SEM);
-	if ((core->info->helper = sem_open(SEM_HELP, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
+	sem_unlink(SEM_HELP);
+	if ((core->info->helper = sem_open(SEM_HELP,
+	O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
 		return (ERR_SEM);
 	i = -1;
 	while (++i < num)
 	{
 		ph[i].death = 0;
 		ph[i].info = core->info;
-		ph[i].last_meal = ft_get_time() - ph->info->start_ms;
+		ph[i].last_meal = ft_get_time();
 		ph[i].n = i + 1;
 	}
 	return (SUCCESS);
@@ -34,13 +46,13 @@ int				ft_init(t_core *core)
 		return (ERR_MALLOC);
 	if ((ret = ft_init_forks((core->ph), core->number, core)))
 		return (ret);
-	if (!(core->info->print = (sem_t*)malloc(sizeof(sem_t))))
-		return (ERR_MALLOC);
-	if (!(core->info->read = (sem_t*)malloc(sizeof(sem_t))))
-		return (ERR_MALLOC);
-	if ((core->info->read =  sem_open(SEM_READ, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
+	sem_unlink(SEM_READ);
+	if ((core->info->read = sem_open(SEM_READ,
+	O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
 		return (ERR_SEM);
-	if ((core->info->print =  sem_open(SEM_WRITE, O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
+	sem_unlink(SEM_WRITE);
+	if ((core->info->print = sem_open(SEM_WRITE,
+	O_CREAT | S_IRWXU, 0644, 1)) == SEM_FAILED)
 		return (ERR_SEM);
 	return (SUCCESS);
 }

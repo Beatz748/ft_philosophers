@@ -4,7 +4,7 @@
 		"name": "(lldb) Launch",
 		"type": "cppdbg",
 		"request": "launch",
-		"program": "${workspaceFolder}/philo_one/philo_one",
+		"program": "${workspaceFolder}/philo_two/philo_two",
 		"args": [4 410 200 200 5],
 		"stopAtEntry": false,
 		"cwd": "${workspaceFolder}",

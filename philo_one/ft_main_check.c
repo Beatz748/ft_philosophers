@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_main_check.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/11 15:30:05 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 18:19:31 by kshantel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
 static int	ft_check_status(t_philo *ph)
@@ -18,12 +30,12 @@ static int	ft_check_fin(t_core *core)
 	i = 0;
 	if (pthread_mutex_unlock(core->info->check_mutex))
 		return (ERR_MUTEX);
-	while (i != core->number)
+	while (i != (int)core->number)
 	{
 		usleep(100);
 		if (pthread_mutex_lock(core->info->check_mutex))
 			return (ERR_MUTEX);
-		if (core->ph[i].round == core->info->finish_rounds)
+		if (core->ph[i].round == (int)core->info->finish_rounds)
 			i++;
 		else
 			i = 0;
@@ -36,7 +48,6 @@ static int	ft_check_fin(t_core *core)
 int			ft_check(t_core *core)
 {
 	int		i;
-	size_t	now;
 
 	i = 0;
 	while (1)
@@ -52,11 +63,11 @@ int			ft_check(t_core *core)
 		}
 		if (pthread_mutex_lock(core->info->check_mutex))
 			return (ERR_MUTEX);
-		if (core->ph[i].round == core->info->finish_rounds)
+		if (core->ph[i].round == (int)core->info->finish_rounds)
 			return (ft_check_fin(core));
 		if (pthread_mutex_unlock(core->info->check_mutex))
 			return (ERR_MUTEX);
-		if (++i >= core->number)
+		if (++i >= (int)core->number)
 			i = 0;
 	}
 	return (SUCCESS);

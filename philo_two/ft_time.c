@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_time.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/11 15:30:36 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 18:21:40 by kshantel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_two.h"
 
 int		ft_usleep(size_t time)
@@ -13,7 +25,7 @@ int		ft_usleep(size_t time)
 		if (gettimeofday(&new, NULL))
 			return (ft_print_error(ERR_TIME));
 		if (((new.tv_sec - start.tv_sec) * 1000000 +
-		new.tv_usec - start.tv_usec) > time)
+		new.tv_usec - start.tv_usec) > (int)time)
 			break ;
 	}
 	return (SUCCESS);

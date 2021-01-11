@@ -5,26 +5,28 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/11 15:30:17 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:17:54 by kshantel         ###   ########.fr       */
+/*   Created: 2021/01/11 15:30:39 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 18:34:17 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_three.h"
 
 void	ft_clear(t_core *core)
 {
 	int	i;
 
 	i = -1;
-	while (++i < (int)core->number)
-	{
-		pthread_mutex_destroy(core->forks->mutex);
-		free(core->forks[i].mutex);
-	}
-	free(core->info->print_mutex);
-	free(core->forks);
-	free(core->thread);
+	free(core->ph);
+	sem_unlink(SEM_TABLE);
+	sem_close(core->info->forks);
+	sem_unlink(SEM_HELP);
+	sem_close(core->info->helper);
+	sem_unlink(SEM_WRITE);
+	sem_close(core->info->print);
+	sem_unlink(SEM_READ);
+	sem_close(core->info->read);
+	free(core->info);
 	free(core);
 }
 

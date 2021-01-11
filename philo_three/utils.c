@@ -6,11 +6,11 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:41 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 15:30:42 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/11 16:15:49 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 size_t	ft_strlen(char *str)
 {

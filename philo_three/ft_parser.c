@@ -6,11 +6,11 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:32 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 15:30:33 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/11 16:15:49 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 static size_t	ft_new_atoi(char *str, size_t *dst)
 {

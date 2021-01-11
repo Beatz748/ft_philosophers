@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/11 15:34:24 by kshantel          #+#    #+#             */
+/*   Updated: 2021/01/11 18:21:13 by kshantel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_TWO_H
 # define PHILO_TWO_H
 
@@ -60,17 +72,11 @@ size_t			ft_get_time(void);
 int				ft_init(t_core *core);
 int				ft_print_stat(size_t num, t_philo *ph);
 int				ft_parser(int argc, char **argv, t_core *core);
-int				ft_start_eating(t_core *core, size_t ms_start, size_t num);
+int				ft_start_eating(t_core *core, size_t num);
 int				ft_strcpy(char *dst, const char *src);
 int				ft_valid(t_core *core);
 int				ft_print_error(int num);
 int				ft_usleep(size_t time);
 int				ft_mini_clear(t_core *core, int err);
 int				ft_check(t_core *core);
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <pthread.h>
-# include <sys/time.h>
-# include <semaphore.h>
 #endif
