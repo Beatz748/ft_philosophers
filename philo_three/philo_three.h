@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 18:26:26 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:26:32 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/12 14:40:52 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <sys/wait.h>
+# include <pthread.h>
 
 # define SEM_WRITE "/sem for write"
 # define SEM_READ "/sem for read"
@@ -53,6 +54,7 @@ typedef struct	s_info
 	sem_t			*forks;
 	sem_t			*print;
 	sem_t			*read;
+	pthread_t		*thread;
 }				t_info;
 
 typedef struct	s_philo
@@ -80,8 +82,9 @@ int				ft_start_eating(t_core *core, size_t num);
 int				ft_strcpy(char *dst, const char *src);
 int				ft_valid(t_core *core);
 int				ft_print_error(int num);
-int				ft_usleep(size_t time, t_philo *ph);
+int				ft_usleep(size_t time);
 int				ft_mini_clear(t_core *core, int err);
 int				ft_check(t_core *core);
 void			ft_check_time(t_philo *ph);
+void			ft_free_pth(t_philo *ph);
 #endif

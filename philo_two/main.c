@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:39 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:36:50 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/12 13:34:31 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_clear(t_core *core)
 	sem_unlink(SEM_READ);
 	sem_close(core->info->read);
 	free(core->info);
+	free(core->thread);
 	free(core);
 }
 

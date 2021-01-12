@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:25 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 17:51:05 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/12 14:17:16 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int				ft_init(t_core *core)
 	int	ret;
 
 	if (!(core->ph = (t_philo*)malloc(sizeof(t_philo) * core->number)))
+		return (ERR_MALLOC);
+	if (!(core->info->thread = (pthread_t*)malloc(sizeof(pthread_t))))
 		return (ERR_MALLOC);
 	if ((ret = ft_init_forks((core->ph), core->number, core)))
 		return (ret);

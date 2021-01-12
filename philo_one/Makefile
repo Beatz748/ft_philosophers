@@ -4,7 +4,7 @@ INCS				=	philo_one.h
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	gcc -g -Wall -Wextra -Werror
+CC				=	gcc -Wall -Wextra -Werror
 
 RM				=	rm -rf
 

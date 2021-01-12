@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:28:08 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:23:55 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/12 14:51:26 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 int			ft_get_forks(t_philo *ph)
 {
-	ft_check_time(ph);
 	if (sem_wait(ph->info->helper))
 		return (ERR_SEM);
-	ft_check_time(ph);
 	if (sem_wait(ph->info->forks) < 0)
 		return (ERR_SEM);
 	if (sem_wait(ph->info->print) < 0)
@@ -40,17 +38,32 @@ static int	ft_eat(t_philo *ph)
 	ft_print_stat(EAT, ph);
 	if (sem_post(ph->info->print) < 0)
 		return (ERR_SEM);
-	ft_check_time(ph);
 	ph->last_meal = ft_get_time();
 	ph->round++;
-	ft_check_time(ph);
-	ft_usleep(ph->info->ms_to_eat * 1000, ph);
+	ft_usleep(ph->info->ms_to_eat * 1000);
 	if (sem_post(ph->info->forks) < 0)
 		return (ERR_SEM);
-	ft_check_time(ph);
 	if (sem_post(ph->info->forks) < 0)
 		return (ERR_SEM);
 	return (SUCCESS);
+}
+
+static void	*ft_death(void *ptr)
+{
+	t_philo *ph;
+
+	ph = (t_philo*)ptr;
+	while (1)
+	{
+		usleep(100);
+		if (ft_get_time() - ph->last_meal > ph->info->ms_to_die)
+		{
+			if (sem_wait(ph->info->print) < 0)
+				return (0x000);
+			ft_print_stat(DEATH, ph);
+			exit(1);
+		}
+	}
 }
 
 static void	*ft_philo(void *ptr)
@@ -58,6 +71,8 @@ static void	*ft_philo(void *ptr)
 	t_philo *ph;
 
 	ph = (t_philo*)ptr;
+	if (pthread_create(ph->info->thread, NULL, ft_death, ph))
+		return (0x000);
 	while (ph->round != (int)ph->info->finish_rounds)
 	{
 		ft_get_forks(ph);
@@ -67,13 +82,15 @@ static void	*ft_philo(void *ptr)
 		ft_print_stat(SLEEP, ph);
 		if (sem_post(ph->info->print) < 0)
 			return (0x000);
-		ft_usleep(ph->info->ms_to_sleep * 1000, ph);
+		ft_usleep(ph->info->ms_to_sleep * 1000);
 		if (sem_wait(ph->info->print) < 0)
 			return (0x000);
 		ft_print_stat(THINK, ph);
 		if (sem_post(ph->info->print) < 0)
 			return (0x000);
 	}
+	if (pthread_detach(*ph->info->thread))
+		return (0x000);
 	exit(1);
 	return (0x000);
 }
@@ -94,6 +111,7 @@ int			ft_start_eating(t_core *core, size_t num)
 	}
 	ft_check(core);
 	i = -1;
+	usleep(100000);
 	while (++i < (int)num)
 		kill(core->ph[i].pid, SIGTERM);
 	return (SUCCESS);
