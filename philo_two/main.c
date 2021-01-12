@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:39 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/12 14:53:10 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/12 20:21:46 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,13 @@
 
 void	ft_clear(t_core *core)
 {
-	int	i;
-
-	i = -1;
 	free(core->ph);
-	sem_unlink(SEM_TABLE);
-	sem_close(core->info->forks);
-	sem_unlink(SEM_HELP);
-	sem_close(core->info->helper);
-	sem_unlink(SEM_WRITE);
-	sem_close(core->info->print);
-	sem_unlink(SEM_READ);
-	sem_close(core->info->read);
-	free(core->info);
 	free(core->thread);
+	sem_unlink(SEM_TABLE);
+	sem_unlink(SEM_HELP);
+	sem_unlink(SEM_WRITE);
+	sem_unlink(SEM_READ);
+	free(core->info);
 	free(core);
 }
 

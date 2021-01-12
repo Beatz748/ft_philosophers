@@ -2,7 +2,7 @@ SRCS			=	ft_init.c ft_parser.c ft_start_eating.c main.c utils.c ft_messages.c ft
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	gcc -Wall -Werror -Wextra
+CC				=	gcc -Wall -Werror -Wextra -g
 
 RM				=	rm -rf
 
