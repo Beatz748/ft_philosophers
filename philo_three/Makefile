@@ -4,7 +4,7 @@ INCS				=	philo_three.h
 
 OBJS			=	$(SRCS:.c=.o)
 
-CC				=	clang -Wall -Werror -Wextra
+CC				=	gcc -Wall -Werror -Wextra
 
 RM				=	rm -rf
 
