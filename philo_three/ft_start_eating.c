@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:28:08 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/13 13:31:31 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 13:56:15 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int			ft_start_eating(t_core *core, size_t num)
 	}
 	ft_check(core);
 	i = -1;
-	usleep(100000);
 	while (++i < (int)num)
 		kill(core->ph[i].pid, SIGTERM);
 	return (SUCCESS);
