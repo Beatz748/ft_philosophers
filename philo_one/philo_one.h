@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:31:30 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:16:57 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 14:46:00 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 
 # define SUCCESS 0
-# define ERR_TIME -1
+# define ERR_TIME 9
 # define ERR_ARG -2
 # define ERR_MALLOC -3
 # define ERR_MUTEX -4
