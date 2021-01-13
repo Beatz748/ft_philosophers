@@ -6,11 +6,19 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:28:32 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 15:29:49 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 19:19:04 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+static int		ft_nice(int i)
+{
+	if (i % 2)
+		return (-1);
+	else
+		return (i);
+}
 
 static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 {
@@ -22,7 +30,7 @@ static int		ft_init_forks(t_philo *ph, int num, t_core *core)
 	memset(core->forks, 0, sizeof(t_fork) * num);
 	while (++i < num)
 	{
-		core->forks[i].last_philo = -1;
+		core->forks[i].last_philo = ft_nice(i);
 		core->forks[i].mutex = (pthread_mutex_t*)
 		malloc(sizeof(pthread_mutex_t));
 		if (pthread_mutex_init(core->forks[i].mutex, NULL))

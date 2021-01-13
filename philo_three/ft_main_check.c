@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:28 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/13 14:48:45 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 15:06:56 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int			ft_check(t_core *core)
 
 	if (waitpid(-1, &status, WUNTRACED) < 0)
 		return (ERR_FORK);
-	if (sem_wait(core->info->print) < 0)
-		return (ERR_SEM);
 	if (sem_wait(core->info->read) < 0)
 		return (ERR_SEM);
 	core->number = core->number;
