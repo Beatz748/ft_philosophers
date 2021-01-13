@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:28:08 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/13 13:28:10 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 14:28:36 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ int			ft_get_forks(t_philo *ph)
 
 static int	ft_eat(t_philo *ph)
 {
+	if (sem_wait(ph->info->read) < 0)
+		return (ERR_SEM);
 	ft_print_stat(EAT, ph);
+	if (sem_post(ph->info->read) < 0)
+		return (ERR_SEM);
 	ph->last_meal = ft_get_time();
 	ph->round++;
 	ft_usleep(ph->info->ms_to_eat * 1000);

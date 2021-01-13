@@ -56,3 +56,5 @@ Mkfile.old
 dkms.conf
 pft/
 pft/
+philo_two/philo_two
+philo_three/philo_three

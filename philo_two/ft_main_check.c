@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:28 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/13 13:23:52 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 14:28:58 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int			ft_check(t_core *core)
 		ft_check_status(&(core->ph[i]));
 		if (core->ph[i].death == 1)
 		{
+			if (sem_wait(core->info->read) < 0)
+				return (ERR_SEM);
 			ft_print_stat(DEATH, &(core->ph[i]));
 			break ;
 		}
