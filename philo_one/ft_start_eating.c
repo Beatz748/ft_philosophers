@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:10 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:17:21 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 13:23:30 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ int			ft_get_forks(t_philo *ph)
 
 static int	ft_eat(t_philo *ph)
 {
+	if (ft_get_time() - ph->last_meal >= ph->info->ms_to_die)
+	{
+		ph->death = 1;
+		return (SUCCESS);
+	}
 	if (pthread_mutex_lock(ph->info->print_mutex))
 		return (ERR_MUTEX);
 	ft_print_stat(EAT, ph);

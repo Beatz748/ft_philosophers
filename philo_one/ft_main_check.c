@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:05 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:19:31 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 13:18:58 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	ft_check_status(t_philo *ph)
 {
 	if (pthread_mutex_lock(ph->info->check_mutex))
 		return (ERR_MUTEX);
-	if (ft_get_time() - ph->last_meal > ph->info->ms_to_die)
+	if (ft_get_time() - ph->last_meal >= ph->info->ms_to_die)
 		ph->death = 1;
 	if (pthread_mutex_unlock(ph->info->check_mutex))
 		return (ERR_MUTEX);

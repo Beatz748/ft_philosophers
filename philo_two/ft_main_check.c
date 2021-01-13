@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:30:28 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/11 18:22:10 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 13:23:52 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ft_check_status(t_philo *ph)
 {
-	if (ft_get_time() - ph->last_meal > ph->info->ms_to_die)
+	if (ft_get_time() - ph->last_meal >= ph->info->ms_to_die)
 		ph->death = 1;
 	return (SUCCESS);
 }

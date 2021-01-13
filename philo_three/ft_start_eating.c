@@ -6,7 +6,7 @@
 /*   By: kshantel <kshantel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 15:28:08 by kshantel          #+#    #+#             */
-/*   Updated: 2021/01/12 14:51:26 by kshantel         ###   ########.fr       */
+/*   Updated: 2021/01/13 13:31:31 by kshantel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	ft_eat(t_philo *ph)
 	if (sem_wait(ph->info->print) < 0)
 		return (ERR_SEM);
 	ft_print_stat(EAT, ph);
-	if (sem_post(ph->info->print) < 0)
-		return (ERR_SEM);
 	ph->last_meal = ft_get_time();
 	ph->round++;
+	if (sem_post(ph->info->print) < 0)
+		return (ERR_SEM);
 	ft_usleep(ph->info->ms_to_eat * 1000);
 	if (sem_post(ph->info->forks) < 0)
 		return (ERR_SEM);
@@ -56,7 +56,7 @@ static void	*ft_death(void *ptr)
 	while (1)
 	{
 		usleep(100);
-		if (ft_get_time() - ph->last_meal > ph->info->ms_to_die)
+		if (ft_get_time() - ph->last_meal >= ph->info->ms_to_die)
 		{
 			if (sem_wait(ph->info->print) < 0)
 				return (0x000);
